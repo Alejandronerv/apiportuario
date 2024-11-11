@@ -130,7 +130,7 @@ async def cntr_release(PI_CNTR_NUMBER,token:str=Depends(oauth2_schema)):
                     "PO_DEP_TIME": row[5]}
 
 # Vessel Operation Summary by Shipping Company 
-@app.get(ENV_VAR_API_VER_FOLDER+"/VesselOperationSummary/{PI_SHIPPING_LINE}")
+@app.get(ENV_VAR_API_VER_FOLDER+"/VesselOperationSummary/{PI_SHIPPING_LINE}/{PI_OPD_DATE}")
 async def cntr_release(PI_SHIPPING_LINE,token:str=Depends(oauth2_schema)):
     
     # ORACLE CONNECTION======================================================================
@@ -140,7 +140,7 @@ async def cntr_release(PI_SHIPPING_LINE,token:str=Depends(oauth2_schema)):
     # =======================================================================================
 
     ref_cursor = cursor.callfunc('TOS2P_CCT_LINK_API.TOS2F_VESSEL_OPERATION_SUM',
-                             cx_Oracle.DB_TYPE_CURSOR,[PI_SHIPPING_LINE])
+                             cx_Oracle.DB_TYPE_CURSOR,[PI_SHIPPING_LINE],[PI_OPD_DATE])
     for row in ref_cursor:
             return {"PO_VESSEL_NAME": row[0],
                     "PO_COMM_DATE_TIME": row[1],
